@@ -103,6 +103,27 @@ router.get('/:id' , session  ,async(req,res)=>{
     })
 })
 
+router.get('/student/:id'   ,async(req , res)=>{
+    // return res
+    const id = req.params.id 
+    solution.aggregate(
+        [{$lookup:{
+        from:"assignments",
+        localField: 'assignment',
+        foreignField: '_id',
+        as: 'question', 
+    }},
+     {$match:{'user':ObjectId(id)}}
+   ]).then(data=>{
+       return res.json({error:false ,msg:"Found" , data:data})
+
+   }).catch(er=>{
+       console.log(er);
+       return res.json({error:true,msg:"Error"})
+   })
+    
+})
+
 // const checkIsSubmitted =async ({user , assignment})=>{
 //    await solution.findOne({user:user , assignment:assignment})
 //     .then(data=>{

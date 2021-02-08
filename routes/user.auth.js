@@ -143,4 +143,23 @@ router.get('/accesstoken' , session  ,async(req,res)=>{
     })
 
 })
+/**
+ * Search
+ * @todo only work for instructor
+ */
+router.get('/search/:query' , async(req,res)=>{
+    const query = req.params.query 
+    if(query===null ||query ===undefined){
+        return res.json({error:true , msg:"Nothing found"})
+    }
+    user.find({
+        $or:[{name:{$regex:query} , email:{$regex:query}}]
+    }).then(data=>{
+        return res.json({error:false , data:data , msg:"Found result"})
+    }).catch(er=>{
+        return res.json({error:true , msg:"Nothing found"})
+    })
+
+
+})
 module.exports = router
