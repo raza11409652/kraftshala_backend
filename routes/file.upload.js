@@ -15,6 +15,7 @@ aws.config.update({
   secretAccessKey: SECRET
 });
 const s3 = new aws.S3();
+const maxSize =1*1000*1000
 var imageFilter =  function (req, file, callback) {
     if(!file.originalname.match(/\.(pdf|PDF)$/)){
         req.fileValidationError = "only image allowed"
@@ -22,7 +23,9 @@ var imageFilter =  function (req, file, callback) {
     }
     callback(null , true)
 }
-var upload = multer({storage:multerS3({
+var upload = multer({
+    limits:{fileSize:maxSize},
+    storage:multerS3({
     s3:s3 , 
     bucket:BUCKET_NAME ,acl:'public-read' ,
     contentType: multerS3.AUTO_CONTENT_TYPE , 
