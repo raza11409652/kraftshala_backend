@@ -6,7 +6,7 @@ system should have pre install node JS
 run npm i  OR npm install
 
 after succesfully installation of dependecncies
-run npm run test ->With nodemon
+run npm run test ->With nodemon OR
 run npm run strt ->Withoud nodemon
 
 
